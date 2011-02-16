@@ -37,7 +37,7 @@ class WikiTeX
         else
           new_type = :p
       end
-      if new_type != type
+      if (new_type != type) || new_type == :heading
         tex += __send__("element_#{type}", body.to_s)
         body = ''
       end

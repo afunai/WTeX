@@ -76,6 +76,21 @@ _eos
       @wt.tex(w),
       'WikiTeX#tex should deal with multiple commands'
     )
+
+    w = <<'_eos'
+! foo
+!! bar
+
+_eos
+    assert_equal(
+      <<'_eos',
+\chapter{foo}
+\section{bar}
+
+_eos
+      @wt.tex(w),
+      'WikiTeX#tex should deal with multiple commands'
+    )
   end
 
   def test_tex_p
