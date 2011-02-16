@@ -27,7 +27,7 @@ class TC_WikiTeX_Bin < Test::Unit::TestCase
       ::Dir.chdir('./foobar') do
         system('../../../bin/wikitex convert')
         assert(
-          ::File.size?('./out/body.tex'),
+          ::File.size?('./body.tex'),
           "'convert' command should convert body.txt into out/body.tex"
         )
       end

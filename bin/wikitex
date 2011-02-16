@@ -38,7 +38,7 @@ case ARGV.shift
     }
 
     tex = wt.tex src
-    ::File.open('./out/body.tex', 'a') {|f|
+    ::File.open('./body.tex', 'a') {|f|
       f.flock ::File::LOCK_EX
       f.binmode
       f.seek 0
