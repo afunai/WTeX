@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+# encoding: UTF-8
+
+# Author::    Akira FUNAI
+# Copyright:: Copyright (c) 2011 Akira FUNAI
+
+require 'rubygems'
+require 'fileutils'
+
+$LOAD_PATH.unshift ::File.expand_path('../lib', ::File.dirname(__FILE__))
+require 'wikitex'
+
+case ARGV.shift
+  when 'init'
+    work_name = ARGV.shift || 'my_work'
+    work_dir  = ::File.expand_path work_name
+
+    if ::File.exists? work_dir
+      $stderr.puts "#{work_dir} already exists."
+      exit 1
+    else
+      $stderr.puts "Setting up files in #{work_dir}..."
+      ::FileUtils.cp_r(
+        ::File.expand_path('../skel',WikiTeX.libdir),
+        work_name,
+        :verbose => :true
+      )
+    end
+  else
+    $stderr.puts 'Usage: wikitex {init NAME|correct|make}'
+    exit 1
+end

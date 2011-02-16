@@ -1,0 +1,26 @@
+\documentclass[oneside,12pt,landscape]{tbook}
+
+\AtBeginDvi{\special{papersize=297mm,210mm}}
+
+\textheight 34\baselineskip
+\textwidth 39zw
+\oddsidemargin 4zw
+
+%\textwidth 41zw
+%\kanjiskip=.1zw plus 3pt minus 3pt
+%\xkanjiskip=.2zw plus 3pt minus 3pt
+
+\setlength {\parindent } {1zw}
+
+%%% preamble
+\include{head.tex}
+
+%%% body
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\include{out/body.tex}
+
+\end{document}
