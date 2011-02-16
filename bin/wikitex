@@ -26,7 +26,27 @@ case ARGV.shift
         :verbose => :true
       )
     end
+  when 'correct'
+  when 'convert'
+    wt  = WikiTeX.new
+    src = nil
+    ::File.open('./body.txt', 'r') {|f|
+      f.flock ::File::LOCK_SH
+      f.binmode
+      src = f.read
+      f.flock ::File::LOCK_UN
+    }
+
+    tex = wt.tex src
+    ::File.open('./out/body.tex', 'a') {|f|
+      f.flock ::File::LOCK_EX
+      f.binmode
+      f.seek 0
+      f.truncate 0
+      f << tex
+      f.flock ::File::LOCK_UN
+    }
   else
-    $stderr.puts 'Usage: wikitex {init NAME|correct|make}'
+    $stderr.puts 'Usage: wikitex {init NAME|correct|convert}'
     exit 1
 end

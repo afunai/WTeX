@@ -16,13 +16,21 @@ class TC_WikiTeX_Bin < Test::Unit::TestCase
   def teardown
   end
 
-  def test_init
+  def test_bin
     ::Dir.chdir(@tmp_dir) do
       system('../../bin/wikitex init foobar 2>/dev/null')
       assert(
         ::File.exists?('./foobar'),
-        'wikitex command should copy skeltons to the target directory'
+        "'init' command should copy skeltons to the target directory"
       )
+
+      ::Dir.chdir('./foobar') do
+        system('../../../bin/wikitex convert')
+        assert(
+          ::File.size?('./out/body.tex'),
+          "'convert' command should convert body.txt into out/body.tex"
+        )
+      end
     end
   end
 
