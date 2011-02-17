@@ -74,7 +74,7 @@ _eos
 
 _eos
       @wt.tex(w),
-      'WikiTeX#tex should deal with multiple commands'
+      'WikiTeX#tex should deal with multiple headings'
     )
 
     w = <<'_eos'
@@ -89,7 +89,7 @@ _eos
 
 _eos
       @wt.tex(w),
-      'WikiTeX#tex should deal with multiple commands'
+      'WikiTeX#tex should deal with sequence of headings'
     )
   end
 
