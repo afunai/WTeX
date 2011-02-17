@@ -17,7 +17,7 @@ _eos
     gem.files = FileList[
       'bin/*',
       'lib/*.rb',
-      'skel/*',
+      'skel/**/*',
       't/*',
     ].to_a
     gem.test_files = FileList['t/test_*.rb']
