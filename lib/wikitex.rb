@@ -31,6 +31,8 @@ class WikiTeX
       case line
         when /^!/
           new_type = :heading
+        when /^---+$/
+          new_type = :newpage
         when /^$/
           new_type = :blank
         else
@@ -63,6 +65,10 @@ class WikiTeX
       else
         "\\subsection{#{body}}\n"
     end
+  end
+
+  def element_newpage(body)
+    "\\newpage\n"
   end
 
   def element_p(body)

@@ -200,4 +200,34 @@ _eos
     )
   end
 
+  def test_tex_newpage
+    w = <<'_eos'
+foo
+---
+bar
+_eos
+    assert_equal(
+      <<'_eos',
+foo
+\newpage
+bar
+_eos
+      @wt.tex(w),
+      'WikiTeX#tex should convert "---" into \\newpage'
+    )
+
+    w = <<'_eos'
+foo
+---------
+_eos
+    assert_equal(
+      <<'_eos',
+foo
+\newpage
+_eos
+      @wt.tex(w),
+      'WikiTeX#tex should convert more than 3 "-"s into \\newpage as well'
+    )
+  end
+
 end
