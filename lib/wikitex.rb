@@ -36,7 +36,7 @@ class WikiTeX
         else
           new_type = :p
       end
-      if (new_type != type) || new_type == :heading
+      if (new_type != type) || single_line?(new_type)
         tex += __send__("element_#{type}", body.to_s)
         body = ''
       end
@@ -46,6 +46,10 @@ class WikiTeX
     tex += __send__("element_#{type}", body) if body != ''
 
     tex
+  end
+
+  def single_line?(type)
+    [:heading, :newpage].include? type
   end
 
   def element_heading(body)
