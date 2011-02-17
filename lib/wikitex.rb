@@ -28,11 +28,10 @@ class WikiTeX
 
     while !s.eos? && s.scan(rex_line)
       line = s[0]
-      line =~ /^(.?)/
-      case $1
-        when '!'
+      case line
+        when /^!/
           new_type = :heading
-        when '', nil
+        when /^$/
           new_type = :blank
         else
           new_type = :p
