@@ -8,6 +8,8 @@ require 'strscan'
 
 class WikiTeX
 
+  WITHOUT_RUBY = '\s|｜ぁ-んゝゞ\　、。，．？！´｀／∥…‥‘’“”（）〔〕［］｛｝〈〉《》「」『』【】♪'
+
   def self.libdir
     ::File.dirname __FILE__
   end
@@ -82,6 +84,11 @@ class WikiTeX
   end
 
   def inline(body)
+    body = convert_ruby body
+  end
+
+  def convert_ruby(body)
+    body.gsub!(/[｜\|]?([^#{WITHOUT_RUBY}]+)《(.+?)》/u, '\\\\ruby{\\1}{\\2}')
     body
   end
 
