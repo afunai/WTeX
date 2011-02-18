@@ -35,9 +35,9 @@ class TC_WikiTeX < Test::Unit::TestCase
       "! foo\n",
     ].each {|w|
       assert_equal(
-        "\\chapter{foo}\n",
+        "\\subsection{foo}\n",
         @wt.tex(w.dup),
-        "WikiTeX#tex should convert #{w.inspect} into \\chapter{foo}"
+        "WikiTeX#tex should convert #{w.inspect} into \\subsection{foo}"
       )
     }
 
@@ -47,21 +47,21 @@ class TC_WikiTeX < Test::Unit::TestCase
       'WikiTeX#tex should convert "!! bar" into \\section{bar}'
     )
     assert_equal(
-      "\\subsection{baz}\n",
+      "\\chapter{baz}\n",
       @wt.tex('!!! baz'),
-      'WikiTeX#tex should convert "!!! baz" into \\subsection{baz}'
+      'WikiTeX#tex should convert "!!! baz" into \\chapter{baz}'
     )
 
     assert_equal(
-      "\\subsection{baz}\n",
+      "\\chapter{baz}\n",
       @wt.tex('!!!!! baz'),
-      'WikiTeX#tex should convert more than 4 "!"s into \\subsection{}'
+      'WikiTeX#tex should convert more than 4 "!"s into \\chapter{}'
     )
   end
 
   def test_tex_heading_combination
     w = <<'_eos'
-! foo
+!!! foo
 
 !! bar
 
@@ -78,7 +78,7 @@ _eos
     )
 
     w = <<'_eos'
-! foo
+!!! foo
 !! bar
 
 _eos
@@ -158,7 +158,7 @@ _eos
 
   def test_tex_p_combination
     w = <<'_eos'
-! foo
+!!! foo
 
 baz
 qux

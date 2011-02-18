@@ -76,11 +76,11 @@ class WikiTeX
     body.gsub!(/(!+)\s*/, '')
     case $1
       when '!'
-        "\\chapter{#{body}}\n"
+        "\\subsection{#{body}}\n"
       when '!!'
         "\\section{#{body}}\n"
       else
-        "\\subsection{#{body}}\n"
+        "\\chapter{#{body}}\n"
     end
   end
 
