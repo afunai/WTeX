@@ -38,33 +38,61 @@ class WikiTeX
   def _tex(str)
     tex  = ''
     body = ''
+    line = ''
     type = :blank
 
-    rex_line = /^.*(\n|\z)/
+    markups  = []
+    rex_line = /(.*?)(\\|\$\\|\{|\n|\z)/
     s = StringScanner.new str
 
     while !s.eos? && s.scan(rex_line)
-      line = s[0]
-      case line
-        when /^!/
-          new_type = :heading
-        when /^---+$/
-          new_type = :newpage
-        when /^$/
-          new_type = :blank
-        else
-          new_type = :p
+      line += s[1]
+
+      if s[2] =~ /\\|\{/
+        line += skip_tex_markup(s, s[2], markups)
+        next unless s.match? /\z/
       end
-      if (new_type != type) || single_line?(new_type)
+
+      new_type = wiki_type line
+
+      if (new_type != type) || single_line?(type)
         tex += __send__("element_#{type}", body.to_s)
         body = ''
       end
-      body += line
-      type = new_type
-    end
-    tex += __send__("element_#{type}", body) if body != ''
 
-    tex
+      body << line << "\n"
+      type = new_type
+      line = ''
+    end
+
+    tex += __send__("element_#{type}", body.to_s)
+    tex.gsub(/\x00(\d+)/) { markups[$1.to_i] }
+  end
+
+  def skip_tex_markup(s, type, markups)
+    if type == '\\'
+      if s.scan /begin/
+      elsif s.scan /verb/
+      elsif s.scan /.\w*/ # character or command
+        markups << ('\\' + s[0])
+      end
+    else
+      # skip inside parenthesis
+    end
+    "\x00#{markups.size - 1}"
+  end
+
+  def wiki_type(line)
+    case line
+      when /^!/
+        :heading
+      when /^---+$/
+        :newpage
+      when /^$/
+        :blank
+      else
+        :p
+    end
   end
 
   def single_line?(type)
@@ -111,10 +139,6 @@ class WikiTeX
   def escape_specials(body)
     body.gsub!(/[#{Characters::SPECIAL}]/) { Characters::SPECIAL_MAP[$&] }
     body
-  end
-
-  def skip_tex_markup(s)
-    ''
   end
 
 end
