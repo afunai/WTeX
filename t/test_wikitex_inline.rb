@@ -103,4 +103,17 @@ class TC_WikiTeX_Inline < Test::Unit::TestCase
     )
   end
 
+  def test_tex_escape_specials
+    assert_equal(
+      "\\\#{} \\${} \\%{} \\&{} \\_{}\n",
+      @wt.tex('# $ % & _'),
+      'WikiTeX#tex should escape all special characters in non-TeX paragraphs'
+    )
+    assert_equal(
+      "\\textless{} \\textgreater{} \\textasciitilde{} \\textbar{} \\textasciicircum{}\n",
+      @wt.tex('< > ^ | ~'),
+      'WikiTeX#tex should escape all special characters in non-TeX paragraphs'
+    )
+  end
+
 end

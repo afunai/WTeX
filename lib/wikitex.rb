@@ -8,7 +8,22 @@ require 'strscan'
 
 class WikiTeX
 
-  WITHOUT_RUBY = '\s|｜ぁ-んゝゞ\　、。，．？！´｀／∥…‥‘’“”（）〔〕［］｛｝〈〉《》「」『』【】♪'
+  module Characters
+    SPECIAL_MAP = {
+      '#' => '\\#{}',
+      '$' => '\\${}',
+      '%' => '\\%{}',
+      '&' => '\\&{}',
+      '_' => '\\_{}',
+      '<' => '\\textless{}',
+      '>' => '\\textgreater{}',
+      '^' => '\\textasciitilde{}',
+      '|' => '\\textbar{}',
+      '~' => '\\textasciicircum{}',
+    }
+    SPECIAL = SPECIAL_MAP.keys.join
+    WITHOUT_RUBY = '\s|｜ぁ-んゝゞ\　、。，．？！´｀／∥…‥‘’“”（）〔〕［］｛｝〈〉《》「」『』【】♪'
+  end
 
   def self.libdir
     ::File.dirname __FILE__
@@ -84,11 +99,17 @@ class WikiTeX
   end
 
   def inline(body)
-    body = convert_ruby body
+    body = convert_ruby    body
+    body = escape_specials body
   end
 
   def convert_ruby(body)
-    body.gsub!(/[｜\|]?([^#{WITHOUT_RUBY}]+)《(.+?)》/u, '\\\\ruby{\\1}{\\2}')
+    body.gsub!(/[｜\|]?([^#{Characters::WITHOUT_RUBY}]+)《(.+?)》/u, '\\\\ruby{\\1}{\\2}')
+    body
+  end
+
+  def escape_specials(body)
+    body.gsub!(/[#{Characters::SPECIAL}]/) { Characters::SPECIAL_MAP[$&] }
     body
   end
 
