@@ -147,11 +147,26 @@ class WikiTeX
 
   def inline(body)
     body = convert_ruby    body
+    body = convert_strong  body
     body = escape_specials body
   end
 
   def convert_ruby(body)
     body.gsub!(/[｜\|]?([^#{Characters::WITHOUT_RUBY}]+)《(.+?)》/u, '\\\\ruby{\\1}{\\2}')
+    body
+  end
+
+  def convert_strong(body)
+    body.gsub!(/(\*{2,})(.*?)\1/) {
+      case $1
+        when '**'
+          "{\\large\\bf #{$2}}"
+        when '***'
+          "{\\LARGE\\bf #{$2}}"
+        else
+          "{\\Huge\\bf #{$2}}"
+      end
+    }
     body
   end
 

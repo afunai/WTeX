@@ -103,4 +103,33 @@ class TC_WikiTeX_Inline < Test::Unit::TestCase
     )
   end
 
+  def test_tex_strong
+    assert_equal(
+      "{\\large\\bf foobar}\n",
+      @wt.tex('**foobar**'),
+      'WikiTeX#tex should deal with strong characters'
+    )
+    assert_equal(
+      "{\\LARGE\\bf foobar}\n",
+      @wt.tex('***foobar***'),
+      'WikiTeX#tex should deal with strong characters'
+    )
+    assert_equal(
+      "{\\Huge\\bf foobar}\n",
+      @wt.tex('****foobar****'),
+      'WikiTeX#tex should deal with strong characters'
+    )
+
+    assert_equal(
+      "qux {\\large\\bf foobar} aaa\n",
+      @wt.tex('qux **foobar** aaa'),
+      'WikiTeX#tex should deal with strong characters'
+    )
+    assert_equal(
+      "qux {\\Huge\\bf foobar} aaa\n",
+      @wt.tex('qux ****foobar**** aaa'),
+      'WikiTeX#tex should deal with strong characters'
+    )
+  end
+
 end
