@@ -230,4 +230,49 @@ _eos
     )
   end
 
+  def test_tex_code
+    w = <<'_eos'
+foo.rb:
+|a = 123
+| b = 456 * 789
+_eos
+    assert_equal(
+      <<'_eos',
+\begin{WTcode}{foo.rb}
+a = 123
+ b = 456 * 789
+\end{WTcode}
+_eos
+      @wt.tex(w),
+      "WikiTeX#tex should convert lines which begin with '|' into code block"
+    )
+
+    w = <<'_eos'
+foo.rb:
+bbb|a = 123
+_eos
+    assert_equal(
+      <<'_eos',
+foo.rb:\\
+bbb\textbar{}a = 123
+_eos
+      @wt.tex(w),
+      "WikiTeX#tex should convert lines which begin with '|' into code block"
+    )
+
+    w = <<'_eos'
+foo_bar.rb:
+|a = 123
+_eos
+    assert_equal(
+      <<'_eos',
+\begin{WTcode}{foo\_{}bar.rb}
+a = 123
+\end{WTcode}
+_eos
+      @wt.tex(w),
+      'WikiTeX#tex should escape title of code blocks'
+    )
+  end
+
 end

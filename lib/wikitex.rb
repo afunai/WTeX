@@ -52,7 +52,7 @@ class WikiTeX
         next unless s.match? /\z/
       end
 
-      new_type = wiki_type line
+      new_type = wiki_type(line, s)
 
       if (new_type != type) || single_line?(type)
         tex += __send__("element_#{type}", body.to_s)
@@ -101,14 +101,18 @@ class WikiTeX
     open_tag + contents
   end
 
-  def wiki_type(line)
+  def wiki_type(line, s)
     case line
       when /^!/
         :heading
+      when /^\|/
+        :code
       when /^---+$/
         :newpage
       when /^$/
         :blank
+      when /:$/
+        s.match?(/^\|/) ? :code : :p
       else
         :p
     end
@@ -128,6 +132,22 @@ class WikiTeX
         "\\section{#{body}}\n"
       else
         "\\chapter{#{body}}\n"
+    end
+  end
+
+  def element_code(body)
+    body.gsub!(/^\|/m, '')
+    if body.gsub!(/\A(.*):\n/, '')
+      title = escape_specials $1
+      <<_eos
+\\begin{WTcode}{#{title}}
+#{body}\\end{WTcode}
+_eos
+    else
+      <<_eos
+\\begin{WTcode*}
+#{body}\\end{WTcode}
+_eos
     end
   end
 
