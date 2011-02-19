@@ -132,4 +132,18 @@ class TC_WikiTeX_Inline < Test::Unit::TestCase
     )
   end
 
+  def test_tex_underline
+    assert_equal(
+      "\\underline{foobar}\n",
+      @wt.tex('__foobar__'),
+      'WikiTeX#tex should deal with underlined characters'
+    )
+
+    assert_equal(
+      "foo \\underline{foobar} bar\n",
+      @wt.tex('foo __foobar__ bar'),
+      'WikiTeX#tex should deal with underlined characters'
+    )
+  end
+
 end

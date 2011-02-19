@@ -146,9 +146,10 @@ class WikiTeX
   end
 
   def inline(body)
-    body = convert_ruby    body
-    body = convert_strong  body
-    body = escape_specials body
+    body = convert_ruby      body
+    body = convert_strong    body
+    body = convert_underline body
+    body = escape_specials   body
   end
 
   def convert_ruby(body)
@@ -167,6 +168,11 @@ class WikiTeX
           "{\\Huge\\bf #{$2}}"
       end
     }
+    body
+  end
+
+  def convert_underline(body)
+    body.gsub!(/__(.*?)__/, '\\underline{\1}')
     body
   end
 
