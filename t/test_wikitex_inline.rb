@@ -175,4 +175,35 @@ _eos
     )
   end
 
+  def test_tex_skip_curly_brackets
+    assert_equal(
+      "{$%#}\n",
+      @wt.tex('{$%#}'),
+      'WikiTeX#tex should skip inside curly brackets'
+    )
+  end
+
+  def test_tex_skip_nested_curly_brackets
+    [
+      "{${%#}foo}\n",
+      "{${%#}f{o}o}\n",
+      "{{${%#}}f{o}o}\n",
+      "{{${%#}f{o}o}}\n",
+      "{${%#}f{o}o{}}\n",
+      "{{}${%#}f{o}o}\n",
+      <<'_eos',
+foo {
+  {$bar}
+  {#baz{%qux}
+}} foo
+_eos
+    ].each {|w|
+      assert_equal(
+        w,
+        @wt.tex(w),
+        "WikiTeX#tex should skip nested curly brackets: #{w.inspect}"
+      )
+    }
+  end
+
 end

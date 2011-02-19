@@ -78,10 +78,24 @@ class WikiTeX
       end
     elsif type == '$'
       markups << (s.scan(%r/.*?[^\\]\$|\$/m) ? "$#{s[0]}" : '\\${}')
+    elsif type == '{'
+      markups << scan_inner_contents(s, '{', '}')
     else
-      # skip inside parenthesis
+      return '???'
     end
     "\x00#{markups.size - 1}"
+  end
+
+  def scan_inner_contents(s, open_tag, close_tag)
+    contents = ''
+    rex = /(.*?)(#{Regexp.quote(open_tag)}|#{Regexp.quote(close_tag)}|\z)/m
+    gen = 1
+    until s.eos? || (gen < 1)
+      contents << s.scan(rex)
+      gen += 1 if s[2] == open_tag
+      gen -= 1 if s[2] == close_tag
+    end
+    open_tag + contents
   end
 
   def wiki_type(line)
