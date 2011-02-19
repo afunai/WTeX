@@ -172,7 +172,7 @@ class WikiTeX
   end
 
   def convert_underline(body)
-    body.gsub!(/__(.*?)__/, '\\underline{\1}')
+    body.gsub!(/__(.*?)__/, '\\WTunderline{\1}')
     body
   end
 
