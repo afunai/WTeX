@@ -93,6 +93,25 @@ _eos
     )
   end
 
+  def test_tex_escape_display_math_mode
+    [
+      "$$foo@baz$$\n",
+      "foo $$foo@baz$$ $$qux@bar$$ foo\n",
+      <<'_eos',
+foo $$
+  {$bar}
+  {#baz\{%qux
+$$ foo
+_eos
+    ].each {|w|
+      assert_equal(
+        w,
+        @wt.tex(w),
+        'WikiTeX#tex should skip inside TeX math modes'
+      )
+    }
+  end
+
   def test_tex_skip_verb
     assert_equal(
       "\\verb|$%{|\n",

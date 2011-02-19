@@ -41,7 +41,7 @@ class WikiTeX
     type = :blank
 
     markups  = []
-    rex_line = /(.*?)(\\|\$|\{|\n|\z)/
+    rex_line = /(.*?)(\\|\$\$?|\{|\n|\z)/
     s = StringScanner.new str
 
     while !s.eos? && s.scan(rex_line)
@@ -77,6 +77,8 @@ class WikiTeX
       elsif s.scan /.\w*/
         markups << ('\\' + s[0]) # command or escaped character
       end
+    elsif type == '$$'
+      markups << (s.scan(%r/.*?[^\\]\$\$|\$\$/m) ? "$$#{s[0]}" : '\\${}\\${}')
     elsif type == '$'
       markups << (s.scan(%r/.*?[^\\]\$|\$/m) ? "$#{s[0]}" : '\\${}')
     elsif type == '{'
