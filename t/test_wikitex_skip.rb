@@ -140,4 +140,26 @@ _eos
     }
   end
 
+  def test_tex_escaped_curly_brackets
+    [
+      "{foo\\}$bar}\n",
+      "{foo\\{$bar}\n",
+      "{\\{foo$bar}\n",
+      "{foo$bar\\}}\n",
+      "{foo\\}$bar\\}$baz}\n",
+      <<'_eos',
+foo {
+  {$bar}
+  {#baz\\{%qux
+}} foo
+_eos
+    ].each {|w|
+      assert_equal(
+        w,
+        @wt.tex(w),
+        'WikiTeX#tex should be aware of escaped curly brackets'
+      )
+    }
+  end
+
 end

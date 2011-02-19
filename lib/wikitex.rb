@@ -88,7 +88,7 @@ class WikiTeX
 
   def scan_inner_contents(s, open_tag, close_tag)
     contents = ''
-    rex = /(.*?)(#{Regexp.quote(open_tag)}|#{Regexp.quote(close_tag)}|\z)/m
+    rex = /(.*?)(\\?#{Regexp.quote(open_tag)}|\\?#{Regexp.quote(close_tag)}|\z)/m
     gen = 1
     until s.eos? || (gen < 1)
       contents << s.scan(rex)
