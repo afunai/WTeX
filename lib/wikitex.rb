@@ -41,13 +41,13 @@ class WikiTeX
     type = :blank
 
     markups  = []
-    rex_line = /(.*?)(\\|\$\\|\{|\n|\z)/
+    rex_line = /(.*?)(\\|\$|\{|\n|\z)/
     s = StringScanner.new str
 
     while !s.eos? && s.scan(rex_line)
       line += s[1]
 
-      if s[2] =~ /\\|\{/
+      if s[2] =~ /\\|\$|\{/
         line += skip_tex_markup(s, s[2], markups)
         next unless s.match? /\z/
       end
@@ -75,6 +75,8 @@ class WikiTeX
       elsif s.scan /.\w*/ # character or command
         markups << ('\\' + s[0])
       end
+    elsif type == '$'
+      markups << (s.scan(%r/.*?[^\\]\$|\$/m) ? "$#{s[0]}" : '\\${}')
     else
       # skip inside parenthesis
     end

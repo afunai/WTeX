@@ -116,4 +116,39 @@ class TC_WikiTeX_Inline < Test::Unit::TestCase
     )
   end
 
+  def test_tex_skip_text_math_mode
+    assert_equal(
+      "$\\backslash$\n",
+      @wt.tex('$\backslash$'),
+      'WikiTeX#tex should skip inside TeX math modes'
+    )
+    assert_equal(
+      "$\\backslash$ foo $\\backslash$ bar\n",
+      @wt.tex('$\backslash$ foo $\backslash$ bar'),
+      'WikiTeX#tex should skip inside TeX math modes'
+    )
+
+    assert_equal(
+      "$big\\$dollar$\n",
+      @wt.tex('$big\\$dollar$'),
+      'WikiTeX#tex should be aware of escaped dollar marks inside TeX math modes'
+    )
+    assert_equal(
+      "$big\\$dollar \\$wow$\n",
+      @wt.tex('$big\\$dollar \\$wow$'),
+      'WikiTeX#tex should be aware of escaped dollar marks inside TeX math modes'
+    )
+
+    w = <<'_eos'
+foo$
+  sqrt{x} + sqrt{y}
+$ bar
+_eos
+    assert_equal(
+      w,
+      @wt.tex(w),
+      'WikiTeX#tex should be aware of TeX math modes in multiple lines'
+    )
+  end
+
 end
