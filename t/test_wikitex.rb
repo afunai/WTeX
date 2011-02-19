@@ -230,27 +230,4 @@ _eos
     )
   end
 
-  def test_tex_skip_commands
-    assert_equal(
-      "foo \\bar baz\n",
-      @wt.tex("foo \\bar baz"),
-      'WikiTeX#tex should skip TeX commands beginning with backslash'
-    )
-    assert_equal(
-      "foo \\bar baz \\qux\n",
-      @wt.tex("foo \\bar baz \\qux"),
-      'WikiTeX#tex should skip TeX commands beginning with backslash'
-    )
-    assert_equal(
-      "foo \\bar baz \\qux\n",
-      @wt.tex("foo \\bar baz \\qux\n"),
-      'WikiTeX#tex should skip TeX commands beginning with backslash'
-    )
-    assert_equal(
-      "foo \\bar baz \\qux \\$\n",
-      @wt.tex("foo \\bar baz \\qux \\$\n"),
-      'WikiTeX#tex should skip TeX commands beginning with backslash'
-    )
-  end
-
 end
