@@ -70,7 +70,8 @@ class WikiTeX
 
   def skip_tex_markup(s, type, markups)
     if type == '\\'
-      if s.scan /begin/
+      if s.scan /begin\{(.+?)\}/
+        markups << scan_inner_contents(s, "\\begin{#{s[1]}}", "\\end{#{s[1]}}")
       elsif s.scan /verb/
         markups << (s.scan(/(.).*?\1/) ? "\\verb#{s[0]}" : '$\backslash$verb')
       elsif s.scan /.\w*/

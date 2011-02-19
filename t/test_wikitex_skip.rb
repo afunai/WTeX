@@ -162,4 +162,38 @@ _eos
     }
   end
 
+  def test_tex_skip_environment
+    [
+      "\\begin{itembox}foo$bar\\end{itembox}\n",
+      "abc \\begin{itembox}foo$bar\\end{itembox} xyz\n",
+#      "\\begin {itembox}foo$bar\\end   {itembox} xyz\n",
+      "\\begin{itembox}foo\\begin{mmm}$bar\\end{mmm}\\end{itembox}\n",
+      "\\begin{itembox}foo\\begin{mmm}$bar\\end{mmm}\\end{itembox} foo\n",
+      <<'_eos',
+\begin{itembox}
+foo {
+  {$bar}
+  {#baz\\{%qux
+}} foo
+\end{itembox} bar
+_eos
+      <<'_eos',
+\begin{itembox}
+foo {
+  \begin{itembox}
+    {$bar}
+  \end{itembox}
+  {#baz\{%qux
+}} foo \\end{itembox}
+\end{itembox} bar
+_eos
+    ].each {|w|
+      assert_equal(
+        w,
+        @wt.tex(w),
+        'WikiTeX#tex should skip inside TeX environments'
+      )
+    }
+  end
+
 end
