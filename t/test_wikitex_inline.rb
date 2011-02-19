@@ -151,4 +151,12 @@ _eos
     )
   end
 
+  def test_tex_broken_text_math_mode
+    assert_equal(
+      "\\${}foo\n",
+      @wt.tex('$foo'),
+      'WikiTeX#tex should escape broken TeX math modes'
+    )
+  end
+
 end
