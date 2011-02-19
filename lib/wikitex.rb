@@ -136,17 +136,18 @@ class WikiTeX
   end
 
   def element_code(body)
-    body.gsub!(/^\|/m, '')
-    if body.gsub!(/\A(.*):\n/, '')
+    if body.gsub!(/\A([^\|].*):\n/, '')
       title = escape_specials $1
+      body.gsub!(/^\|/m, '')
       <<_eos
 \\begin{WTcode}{#{title}}
 #{body}\\end{WTcode}
 _eos
     else
+      body.gsub!(/^\|/m, '')
       <<_eos
-\\begin{WTcode*}
-#{body}\\end{WTcode}
+\\begin{WTcode-without-title}
+#{body}\\end{WTcode-without-title}
 _eos
     end
   end

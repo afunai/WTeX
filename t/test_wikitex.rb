@@ -275,4 +275,38 @@ _eos
     )
   end
 
+  def test_tex_code_without_title
+    w = <<'_eos'
+|a = 123
+| b = 456 * 789
+_eos
+    assert_equal(
+      <<'_eos',
+\begin{WTcode-without-title}
+a = 123
+ b = 456 * 789
+\end{WTcode-without-title}
+_eos
+      @wt.tex(w),
+      "WikiTeX#tex should convert lines which begin with '|' into code block"
+    )
+
+    w = <<'_eos'
+|foo.rb:
+|a = 123
+| b = 456 * 789
+_eos
+    assert_equal(
+      <<'_eos',
+\begin{WTcode-without-title}
+foo.rb:
+a = 123
+ b = 456 * 789
+\end{WTcode-without-title}
+_eos
+      @wt.tex(w),
+      "WikiTeX#tex should not treat lines which begin with '|' as a title"
+    )
+  end
+
 end
