@@ -11,7 +11,6 @@ class WikiTeX
   module Characters
     SPECIAL_MAP = {
       '#' => '\\#{}',
-      '$' => '\\${}',
       '%' => '\\%{}',
       '&' => '\\&{}',
       '_' => '\\_{}',
