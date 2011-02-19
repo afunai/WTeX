@@ -159,4 +159,20 @@ _eos
     )
   end
 
+  def test_tex_skip_verb
+    assert_equal(
+      "\\verb|$%{|\n",
+      @wt.tex('\verb|$%{|'),
+      'WikiTeX#tex should skip inside verb commands'
+    )
+  end
+
+  def test_tex_broken_verb
+    assert_equal(
+      "$\\backslash$verb\\textbar{}abc\n",
+      @wt.tex('\verb|abc'),
+      'WikiTeX#tex should escape broken verb commands'
+    )
+  end
+
 end

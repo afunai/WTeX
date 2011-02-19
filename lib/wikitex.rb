@@ -72,8 +72,9 @@ class WikiTeX
     if type == '\\'
       if s.scan /begin/
       elsif s.scan /verb/
-      elsif s.scan /.\w*/ # character or command
-        markups << ('\\' + s[0])
+        markups << (s.scan(/(.).*?\1/) ? "\\verb#{s[0]}" : '$\backslash$verb')
+      elsif s.scan /.\w*/
+        markups << ('\\' + s[0]) # command or escaped character
       end
     elsif type == '$'
       markups << (s.scan(%r/.*?[^\\]\$|\$/m) ? "$#{s[0]}" : '\\${}')
