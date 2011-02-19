@@ -27,7 +27,7 @@ class TC_WikiTeX_Skip < Test::Unit::TestCase
     )
   end
 
-  def test_tex_skip_commands
+  def test_tex_skip_command
     assert_equal(
       "foo \\bar baz\n",
       @wt.tex("foo \\bar baz"),
@@ -135,7 +135,7 @@ _eos
       assert_equal(
         w,
         @wt.tex(w),
-        "WikiTeX#tex should skip nested curly brackets: #{w.inspect}"
+        'WikiTeX#tex should skip nested curly brackets'
       )
     }
   end
@@ -150,7 +150,7 @@ _eos
       <<'_eos',
 foo {
   {$bar}
-  {#baz\\{%qux
+  {#baz\{%qux
 }} foo
 _eos
     ].each {|w|
