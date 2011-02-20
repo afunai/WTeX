@@ -119,83 +119,64 @@ body.txtに、Wiki/TeXマークアップでソースを記述します。head.te
 行の先頭に「]」記号、または「|」記号を置くと、その行は枠付きボックスとして表示されます。行の直前に「foo.rb:」のようにコロン「:」で終わる行を書くと、ボックスのタイトルとして扱われます。「]」で始まるブロックの内部では、WikiマークアップおよびTeXマークアップが利用可能です。「|」で始まるブロックの内部では、WikiマークアップもTeXマークアップも使用できず、ソースの文字がすべてそのまま表示されます。
 
 ソース:
-| foo_bar.tex:
-| ]foo,bar,
-| ]{\large\bf bar},**baz**
+|foo_bar.tex:
+|] foo,bar,
+|] {\large\bf bar},**baz**
 
-\begin{WTbox}{出力（マークアップが評価される）}
-\begin{WTbox}{foo\_{}bar.tex}
-foo,bar,\\
-{\large\bf bar},{\large\bf baz}
-\end{WTbox}
-\end{WTbox}
+出力（マークアップが評価される）:
+]foo_bar.tex:
+]] foo,bar,
+]] {\large\bf bar},**baz**
 
 ソース:
 | foo_bar.tex:
-| |foo,bar,
-| |{\large\bf bar},**baz**
+|| foo,bar,
+|| {\large\bf bar},**baz**
 
-\begin{WTbox}{出力（マークアップは評価されない）}
-\begin{WTcode}{foo\_{}bar.tex}
-foo,bar,
-{\large\bf bar},**baz**
-\end{WTcode}
-\end{WTbox}
+出力（マークアップは評価されない）:
+]foo_bar.tex:
+]| foo,bar,
+]| {\large\bf bar},**baz**
 
 ! 引用
 
 行の先頭に「>」記号を置くと、その行は引用として扱われます。引用の内部では、WikiマークアップおよびTeXマークアップが利用可能です。
 
 ソース:
-| >吾輩は猫である。
-| >名前は__まだ無い__。
+|> 吾輩は猫である。
+|> 名前は__まだ無い__。
 
-\begin{WTbox}{出力}
-\begin{quote}
-吾輩は猫である。\\
-名前は\WTunderline{まだ無い}。
-\end{quote}
-\end{WTbox}
+出力:
+]> 吾輩は猫である。
+]> 名前は__まだ無い__。
 
 ! リスト
 
 行の先頭に「*」または「+」記号を置くと、その行はリストアイテムとして扱われます。「*」は序数なし、「+」だと序数ありです。強調の「\verb|**foo**|」と区別するため、記号とアイテムの間には、必ず空白を入れてください。
 
 ソース:
-| * foo
-| * bar
-| *baz←くっつけて書くとリストにならない
+|* foo
+|* bar
+|*baz←くっつけて書くとリストにならない
 
-\begin{WTbox}{出力}
-\begin{itemize}
-\item foo
-\item bar
-\end{itemize}
-*baz←くっつけて書くとリストにならない
-\end{WTbox}
+出力:
+]* foo
+]* bar
+]*baz←くっつけて書くとリストにならない
 
 リストを入れ子にすることもできます。
 
 ソース:
-| + foo
-| +* bar
-| +* baz
-| + qux
+|+ foo
+|+* bar
+|+* baz
+|+ qux
 
-\begin{WTbox}{出力}
-\begin{enumerate}
-\item foo\begin{itemize}
-\item bar
-\item baz
-\end{itemize}
-
-\item qux
-\end{enumerate}
-\end{WTbox}
-
-! テーブル・表
-
-今のところ、Wikiマークアップはありません。TeXで書きましょう。
+出力:
+]+ foo
+]+* bar
+]+* baz
+]+ qux
 
 !! TeXとの混在
 
@@ -240,6 +221,28 @@ TeXの特殊記号は、自動的にエスケープされます。「#」「%」
 
 出力（ディスプレイ数式モード）:
 ] これはひどい $$x^2 + \sqrt{y}$$ です。
+
+! ボックス、引用、リスト、TeX環境のネスティング
+
+Wikiマークアップのうち、ボックス「]」引用「>」リスト「*」「+」は、TeX環境やボックス・引用同士でネスティングすることができます。ネスティングする場合、Wiki要素の行頭マークは空白を開けずに連続して書いてください。また、TeX環境の内部にWikiマークアップを書いても評価されません。
+
+ソース:
+|]foo:
+|]] $$x^2 + 2y + z$$
+|]> **boo**
+|]>+ A
+|]>++ B
+|] \begin{huge}
+|] FOO\end{huge}
+
+出力:
+]]foo:
+]]] $$x^2 + 2y + z$$
+]]> **boo**
+]]>+ A
+]]>++ B
+]] \begin{huge}
+]] FOO\end{huge}
 
 
 
