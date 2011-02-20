@@ -40,16 +40,20 @@ class WTeX
     line = ''
     type = :blank
 
-    markups  = []
+    markups = []
     rex_line = /(.*?)(\\|\$\$?|\{|\n|\z)/
     s = StringScanner.new str
 
     while !s.eos? && s.scan(rex_line)
       line += s[1]
 
-      if s[2] =~ /\\|\$|\{/
-        line += skip_tex_markup(s, s[2], markups)
-        next unless s.match? /\z/
+      if s[2] =~ /\\|\$\$?|\{/
+        if [:box, :pquote].include? wiki_type(line, s)
+          line << s[2] << (s.scan(/(.*?)(\n|\z)/) ? s[1] : '') # do not skip
+        else
+          line += skip_tex_markup(s, s[2], markups)
+          next unless s.match? /\z/
+        end
       end
 
       new_type = wiki_type(line, s)
@@ -162,7 +166,7 @@ class WTeX
       title = escape_specials $1
     end
     body.gsub!(/^(\]|\|)/m, '')
-    body = element_p(body) if type == :box
+    body = _tex(body) if type == :box
     if title
       <<_eos
 \\begin{WT#{type}}{#{title}}

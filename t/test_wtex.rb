@@ -250,6 +250,115 @@ _eos
     )
   end
 
+  def test_tex_nested_wiki_in_box
+    w = <<'_eos'
+]foo
+]+ bar
+]+ baz
+_eos
+    assert_equal(
+      <<'_eos',
+\begin{WTbox-without-title}
+foo
+\begin{enumerate}
+\item bar
+\item baz
+\end{enumerate}
+\end{WTbox-without-title}
+_eos
+      @wt.tex(w),
+      'WTeX#tex should convert blocks inside a boxed block'
+    )
+
+    w = <<'_eos'
+qux:
+]foo
+]bar:
+]| baz
+_eos
+    assert_equal(
+      <<'_eos',
+\begin{WTbox}{qux}
+foo
+\begin{WTcode}{bar}
+ baz
+\end{WTcode}
+\end{WTbox}
+_eos
+      @wt.tex(w),
+      'WTeX#tex should convert blocks inside a boxed block'
+    )
+  end
+
+  def test_tex_nested_tex_in_box
+    w = <<'_eos'
+]foo
+]$$
+]x^2 + 2y + z
+]$$
+_eos
+    assert_equal(
+      <<'_eos',
+\begin{WTbox-without-title}
+foo\\
+$$
+x^2 + 2y + z
+$$
+\end{WTbox-without-title}
+_eos
+      @wt.tex(w),
+      'WTeX#tex should convert multi-line TeX inside a boxed block'
+    )
+  end
+
+  def test_tex_complex_nesting_in_box
+    w = <<'_eos'
+]foo
+]]$$
+]]x^2 + 2y + z
+]]$$
+]]**boo**
+]\begin{huge}
+]FOO\end{huge}
+_eos
+    assert_equal(
+      <<'_eos',
+\begin{WTbox-without-title}
+foo
+\begin{WTbox-without-title}
+$$
+x^2 + 2y + z
+$$\\
+{\large\bf boo}
+\end{WTbox-without-title}
+\begin{huge}
+FOO\end{huge}
+\end{WTbox-without-title}
+_eos
+      @wt.tex(w),
+      'WTeX#tex should not skip complex Wiki/TeX nesting inside a boxed block'
+    )
+  end
+
+  def test_tex_broken_tex_inside_box
+    w = <<'_eos'
+]foo
+]$$
+a$c
+_eos
+    assert_equal(
+      <<'_eos',
+\begin{WTbox-without-title}
+foo\\
+\${}\${}
+\end{WTbox-without-title}
+a\${}c
+_eos
+      @wt.tex(w),
+      'WTeX#tex should escape broken TeX inside a box'
+    )
+  end
+
   def test_tex_code
     w = <<'_eos'
 foo.rb:
