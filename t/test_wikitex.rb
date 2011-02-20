@@ -242,7 +242,7 @@ _eos
 \end{WTbox}
 _eos
       @wt.tex(w),
-      "WikiTeX#tex should convert lines which begin with ')' into boxed block"
+      "WikiTeX#tex should convert lines which begin with ']' into boxed block"
     )
 
     w = <<'_eos'
@@ -255,7 +255,7 @@ _eos
 \end{WTbox-without-title}
 _eos
       @wt.tex(w),
-      "WikiTeX#tex should convert lines which begin with ')' into boxed block"
+      "WikiTeX#tex should convert lines which begin with ']' into boxed block"
     )
   end
 
