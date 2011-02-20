@@ -6,8 +6,9 @@ begin
   Jeweler::Tasks.new do |gem|
     gem.name              = 'wtex'
     gem.rubyforge_project = 'wtex'
-    gem.summary           = ''
+    gem.summary           = 'converts blended source written in Wiki and TeX into pure TeX or PDF'
     gem.description       = <<'_eos'
+WTeX converts blended source written both in Wiki and TeX into a valid LaTeX source. Also, binary 'wikitex' will prepare templates & Makefile for making the final PDF.
 _eos
 
     gem.authors  = ['Akira FUNAI']
@@ -19,6 +20,7 @@ _eos
       'lib/*.rb',
       'skel/**/*',
       't/*',
+      'README*',
     ].to_a
     gem.test_files = FileList['t/test_*.rb']
     gem.executables = ['wikitex']
