@@ -1,21 +1,72 @@
 \documentclass[oneside,12pt,landscape]{tbook}
-\usepackage{underscore}
+\usepackage{okumacro}
+\usepackage{ascmac}
+\usepackage{fancybox}
 
 \AtBeginDvi{\special{papersize=297mm,210mm}}
 
 \textheight 34\baselineskip
 \textwidth 39zw
 \oddsidemargin 4zw
-\vfuzz 10pt
 
 %\textwidth 41zw
 %\kanjiskip=.1zw plus 3pt minus 3pt
 %\xkanjiskip=.2zw plus 3pt minus 3pt
 
-\parindent 1zw
+\parindent 0zw
 \parskip 1zw plus .5zw minus .2zw
+\vfuzz 10pt
 
-%%% preamble
+%%% custom commands
+\newcommand{\WTunderline}[1]
+{
+  \bou{#1}
+}
+
+%%% custom environments
+\newenvironment{WTbox}[1]
+{
+  \begin{itembox}[l]{#1}
+}
+{
+  \end{itembox}
+}
+
+\newenvironment{WTbox-without-title}[0]
+{
+  \begin{screen}
+}
+{
+  \end{screen}
+}
+
+\newenvironment{WTcode}[1]
+{
+  \VerbatimEnvironment
+  \begin{itembox}[l]{#1}
+  \baselineskip=.6\normalbaselineskip
+  \begin{Verbatim}
+}
+{
+  \end{Verbatim}
+  \baselineskip=\normalbaselineskip
+  \end{itembox}
+}
+
+\newenvironment{WTcode-without-title}[0]
+{
+  \VerbatimEnvironment
+  \begin{screen}
+  \baselineskip=.6\normalbaselineskip
+  \begin{Verbatim}
+}
+{
+  \end{Verbatim}
+  \baselineskip=\normalbaselineskip
+  \end{screen}
+}
+
+%%% title, author, etc.
 \include{head}
 
 %%% body
