@@ -105,6 +105,8 @@ class WikiTeX
     case line
       when /^!/
         :heading
+      when /^\]/
+        :box
       when /^\|/
         :code
       when /^>/
@@ -114,7 +116,13 @@ class WikiTeX
       when /^$/
         :blank
       when /:$/
-        s.match?(/^\|/) ? :code : :p
+        if s.match? /^\]/
+          :box
+        elsif s.match? /^\|/
+          :code
+        else
+          :p
+        end
       else
         :p
     end
@@ -137,19 +145,29 @@ class WikiTeX
     end
   end
 
+  def element_box(body)
+    _box(body, :box)
+  end
+
   def element_code(body)
-    if body.gsub!(/\A([^\|].*):\n/, '')
+    _box(body, :code)
+  end
+
+  def _box(body, type = :box)
+    if body.gsub!(/\A([^\]\|].*):\n/, '')
       title = escape_specials $1
-      body.gsub!(/^\|/m, '')
+    end
+    body.gsub!(/^(\]|\|)/m, '')
+    body = element_p(body) if type == :box
+    if title
       <<_eos
-\\begin{WTcode}{#{title}}
-#{body}\\end{WTcode}
+\\begin{WT#{type}}{#{title}}
+#{body}\\end{WT#{type}}
 _eos
     else
-      body.gsub!(/^\|/m, '')
       <<_eos
-\\begin{WTcode-without-title}
-#{body}\\end{WTcode-without-title}
+\\begin{WT#{type}-without-title}
+#{body}\\end{WT#{type}-without-title}
 _eos
     end
   end

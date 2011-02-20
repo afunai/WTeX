@@ -230,6 +230,35 @@ _eos
     )
   end
 
+  def test_tex_box
+    w = <<'_eos'
+foo:
+] ***big***
+_eos
+    assert_equal(
+      <<'_eos',
+\begin{WTbox}{foo}
+ {\LARGE\bf big}
+\end{WTbox}
+_eos
+      @wt.tex(w),
+      "WikiTeX#tex should convert lines which begin with ')' into boxed block"
+    )
+
+    w = <<'_eos'
+] ***big***
+_eos
+    assert_equal(
+      <<'_eos',
+\begin{WTbox-without-title}
+ {\LARGE\bf big}
+\end{WTbox-without-title}
+_eos
+      @wt.tex(w),
+      "WikiTeX#tex should convert lines which begin with ')' into boxed block"
+    )
+  end
+
   def test_tex_code
     w = <<'_eos'
 foo.rb:
