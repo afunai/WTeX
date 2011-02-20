@@ -6,7 +6,7 @@
 require "#{::File.dirname __FILE__}/t"
 require 'fileutils'
 
-class TC_WikiTeX_Bin < Test::Unit::TestCase
+class TC_WTeX_Bin < Test::Unit::TestCase
 
   def setup
     @tmp_dir = ::File.expand_path('./tmp', ::File.dirname(__FILE__))

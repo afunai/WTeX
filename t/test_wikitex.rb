@@ -5,10 +5,10 @@
 
 require "#{::File.dirname __FILE__}/t"
 
-class TC_WikiTeX < Test::Unit::TestCase
+class TC_WTeX < Test::Unit::TestCase
 
   def setup
-    @wt = WikiTeX.new
+    @wt = WTeX.new
   end
 
   def teardown
@@ -19,10 +19,10 @@ class TC_WikiTeX < Test::Unit::TestCase
     assert_nothing_raised(
       'WikiTex.new should return a proper instance'
     ) {
-      wt = WikiTeX.new
+      wt = WTeX.new
     }
     assert_instance_of(
-      WikiTeX,
+      WTeX,
       wt,
       'WikiTex.new should return a proper instance'
     )
@@ -37,25 +37,25 @@ class TC_WikiTeX < Test::Unit::TestCase
       assert_equal(
         "\\subsection{foo}\n",
         @wt.tex(w.dup),
-        "WikiTeX#tex should convert #{w.inspect} into \\subsection{foo}"
+        "WTeX#tex should convert #{w.inspect} into \\subsection{foo}"
       )
     }
 
     assert_equal(
       "\\section{bar}\n",
       @wt.tex('!! bar'),
-      'WikiTeX#tex should convert "!! bar" into \\section{bar}'
+      'WTeX#tex should convert "!! bar" into \\section{bar}'
     )
     assert_equal(
       "\\chapter{baz}\n",
       @wt.tex('!!! baz'),
-      'WikiTeX#tex should convert "!!! baz" into \\chapter{baz}'
+      'WTeX#tex should convert "!!! baz" into \\chapter{baz}'
     )
 
     assert_equal(
       "\\chapter{baz}\n",
       @wt.tex('!!!!! baz'),
-      'WikiTeX#tex should convert more than 4 "!"s into \\chapter{}'
+      'WTeX#tex should convert more than 4 "!"s into \\chapter{}'
     )
   end
 
@@ -74,7 +74,7 @@ _eos
 
 _eos
       @wt.tex(w),
-      'WikiTeX#tex should deal with multiple headings'
+      'WTeX#tex should deal with multiple headings'
     )
 
     w = <<'_eos'
@@ -89,7 +89,7 @@ _eos
 
 _eos
       @wt.tex(w),
-      'WikiTeX#tex should deal with sequence of headings'
+      'WTeX#tex should deal with sequence of headings'
     )
   end
 
@@ -104,7 +104,7 @@ foo\\
 bar
 _eos
       @wt.tex(w),
-      'WikiTeX#tex should append new line commands explicitly'
+      'WTeX#tex should append new line commands explicitly'
     )
   end
 
@@ -129,7 +129,7 @@ qux
 boo
 _eos
       @wt.tex(w),
-      'WikiTeX#tex should deal with multiple paragraphs'
+      'WTeX#tex should deal with multiple paragraphs'
     )
 
     w = <<'_eos'
@@ -152,7 +152,7 @@ qux
 boo
 _eos
       @wt.tex(w),
-      'WikiTeX#tex should deal with multiple paragraphs'
+      'WTeX#tex should deal with multiple paragraphs'
     )
   end
 
@@ -175,7 +175,7 @@ qux
 boo
 _eos
       @wt.tex(w),
-      'WikiTeX#tex should deal with combination of commands and paragraphs'
+      'WTeX#tex should deal with combination of commands and paragraphs'
     )
 
     w = <<'_eos'
@@ -196,7 +196,7 @@ bar
 boo
 _eos
       @wt.tex(w),
-      'WikiTeX#tex should deal with combination of commands and paragraphs'
+      'WTeX#tex should deal with combination of commands and paragraphs'
     )
   end
 
@@ -213,7 +213,7 @@ foo
 bar
 _eos
       @wt.tex(w),
-      'WikiTeX#tex should convert "---" into \\newpage'
+      'WTeX#tex should convert "---" into \\newpage'
     )
 
     w = <<'_eos'
@@ -226,7 +226,7 @@ foo
 \newpage
 _eos
       @wt.tex(w),
-      'WikiTeX#tex should convert more than 3 "-"s into \\newpage as well'
+      'WTeX#tex should convert more than 3 "-"s into \\newpage as well'
     )
   end
 
@@ -242,7 +242,7 @@ _eos
 \end{WTbox}
 _eos
       @wt.tex(w),
-      "WikiTeX#tex should convert lines which begin with ']' into boxed block"
+      "WTeX#tex should convert lines which begin with ']' into boxed block"
     )
 
     w = <<'_eos'
@@ -255,7 +255,7 @@ _eos
 \end{WTbox-without-title}
 _eos
       @wt.tex(w),
-      "WikiTeX#tex should convert lines which begin with ']' into boxed block"
+      "WTeX#tex should convert lines which begin with ']' into boxed block"
     )
   end
 
@@ -273,7 +273,7 @@ a = 123
 \end{WTcode}
 _eos
       @wt.tex(w),
-      "WikiTeX#tex should convert lines which begin with '|' into code block"
+      "WTeX#tex should convert lines which begin with '|' into code block"
     )
 
     w = <<'_eos'
@@ -286,7 +286,7 @@ foo.rb:\\
 bbb\textbar{}a = 123
 _eos
       @wt.tex(w),
-      "WikiTeX#tex should convert lines which begin with '|' into code block"
+      "WTeX#tex should convert lines which begin with '|' into code block"
     )
 
     w = <<'_eos'
@@ -300,7 +300,7 @@ a = 123
 \end{WTcode}
 _eos
       @wt.tex(w),
-      'WikiTeX#tex should escape title of code blocks'
+      'WTeX#tex should escape title of code blocks'
     )
   end
 
@@ -317,7 +317,7 @@ a = 123
 \end{WTcode-without-title}
 _eos
       @wt.tex(w),
-      "WikiTeX#tex should convert lines which begin with '|' into code block"
+      "WTeX#tex should convert lines which begin with '|' into code block"
     )
 
     w = <<'_eos'
@@ -334,7 +334,7 @@ a = 123
 \end{WTcode-without-title}
 _eos
       @wt.tex(w),
-      "WikiTeX#tex should not treat lines which begin with '|' as a title"
+      "WTeX#tex should not treat lines which begin with '|' as a title"
     )
   end
 
@@ -351,7 +351,7 @@ a = 123\\
 \end{quote}
 _eos
       @wt.tex(w),
-      "WikiTeX#tex should convert lines which begin with '>' into quote"
+      "WTeX#tex should convert lines which begin with '>' into quote"
     )
   end
 
@@ -368,7 +368,7 @@ _eos
 \end{itemize}
 _eos
       @wt.tex(w),
-      "WikiTeX#tex should convert lines which begin with '*' into list"
+      "WTeX#tex should convert lines which begin with '*' into list"
     )
 
     w = <<'_eos'
@@ -381,7 +381,7 @@ _eos
 \end{itemize}
 _eos
       @wt.tex(w),
-      "WikiTeX#tex should convert lines which begin with '*' into list"
+      "WTeX#tex should convert lines which begin with '*' into list"
     )
   end
 
@@ -394,7 +394,7 @@ _eos
 *foo
 _eos
       @wt.tex(w),
-      "WikiTeX#tex should not convert lines with '*' and immidiate strings without spaces"
+      "WTeX#tex should not convert lines with '*' and immidiate strings without spaces"
     )
   end
 
@@ -411,7 +411,7 @@ _eos
 \end{enumerate}
 _eos
       @wt.tex(w),
-      "WikiTeX#tex should convert lines which begin with '+' into list"
+      "WTeX#tex should convert lines which begin with '+' into list"
     )
   end
 
@@ -434,7 +434,7 @@ _eos
 \end{itemize}
 _eos
       @wt.tex(w),
-      'WikiTeX#tex should handle nested lists'
+      'WTeX#tex should handle nested lists'
     )
   end
 
@@ -457,7 +457,7 @@ _eos
 \end{itemize}
 _eos
       @wt.tex(w),
-      'WikiTeX#tex should handle mixed lists'
+      'WTeX#tex should handle mixed lists'
     )
   end
 

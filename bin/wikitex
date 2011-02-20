@@ -21,14 +21,14 @@ case ARGV.shift
     else
       $stderr.puts "Setting up files in #{work_dir}..."
       ::FileUtils.cp_r(
-        ::File.expand_path('../skel',WikiTeX.libdir),
+        ::File.expand_path('../skel',WTeX.libdir),
         work_name,
         :verbose => :true
       )
     end
   when 'correct'
   when 'convert'
-    wt  = WikiTeX.new
+    wt  = WTeX.new
     src = nil
     ::File.open('./body.txt', 'r') {|f|
       f.flock ::File::LOCK_SH

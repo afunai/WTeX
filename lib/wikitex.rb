@@ -6,7 +6,7 @@
 
 require 'strscan'
 
-class WikiTeX
+class WTeX
 
   module Characters
     SPECIAL_MAP = {
