@@ -9,5 +9,8 @@ out/tmpl.dvi : tmpl.tex head.tex body.tex
 	platex -output-directory=out tmpl.tex
 	platex -output-directory=out tmpl.tex
 
+tmpl.tex:
+	cp -p tmpl.tex.report tmpl.tex
+
 body.tex : body.txt
 	wikitex convert

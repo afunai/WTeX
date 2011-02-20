@@ -35,8 +35,13 @@ WikiTeXでPDFを出力するには、以下のソフトが必要です。
 | Makefile
 | body.txt
 | head.tex
-| tmpl.tex
+| tmpl.tex.report
+| tmpl.tex.tbook
 | out/
+
+最初に、tmpl.tex.*のいずれかをtmpl.texとしてコピーします。tmpl.tex.reportが横書き、tmpl.tex.tbookが縦書きのサンプルです。
+
+| cp -p tmpl.tex.report tmpl.tex
 
 body.txtに、Wiki/TeXマークアップでソースを記述します。head.texには文書タイトルや著者情報が、tmpl.texにはTeX文書の外枠がありますので、これらも必要に応じて適宜編集してください。完成したら、
 

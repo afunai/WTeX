@@ -1,0 +1,76 @@
+\documentclass[oneside,11pt,a4paper]{report}
+\usepackage{okumacro}
+\usepackage{ascmac}
+\usepackage{fancybox}
+
+\textheight 25cm
+\textwidth 17cm
+\topmargin -1cm
+\oddsidemargin -.5cm
+\evensidemargin -.5cm
+
+\parindent 0zw
+\parskip 1zw plus .5zw minus .2zw
+\vfuzz 10pt
+
+%%% custom commands
+\newcommand{\WTunderline}[1]
+{
+  \underline{#1}
+}
+
+%%% custom environments
+\newenvironment{WTbox}[1]
+{
+  \begin{itembox}[l]{#1}
+}
+{
+  \end{itembox}
+}
+
+\newenvironment{WTbox-without-title}[0]
+{
+  \begin{screen}
+}
+{
+  \end{screen}
+}
+
+\newenvironment{WTcode}[1]
+{
+  \VerbatimEnvironment
+  \begin{itembox}[l]{#1}
+  \baselineskip=.8\normalbaselineskip
+  \begin{Verbatim}
+}
+{
+  \end{Verbatim}
+  \baselineskip=\normalbaselineskip
+  \end{itembox}
+}
+
+\newenvironment{WTcode-without-title}[0]
+{
+  \VerbatimEnvironment
+  \begin{screen}
+  \baselineskip=.8\normalbaselineskip
+  \begin{Verbatim}
+}
+{
+  \end{Verbatim}
+  \baselineskip=\normalbaselineskip
+  \end{screen}
+}
+
+%%% title, author, etc.
+\include{head}
+
+%%% body
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\include{body}
+
+\end{document}
