@@ -107,6 +107,8 @@ class WikiTeX
         :heading
       when /^\|/
         :code
+      when /^>/
+        :quote
       when /^---+$/
         :newpage
       when /^$/
@@ -152,6 +154,14 @@ _eos
     end
   end
 
+  def element_quote(body)
+    body.gsub!(/^>/m, '')
+    <<_eos
+\\begin{quote}
+#{element_p body}\\end{quote}
+_eos
+  end
+
   def element_newpage(body)
     "\\newpage\n"
   end
@@ -159,7 +169,7 @@ _eos
   def element_p(body)
     body.gsub!(/\n*\Z/, '')
     body.gsub!(/\n/, "\\\\\\\\\n")
-    "#{inline(body)}\n"
+    "#{inline body}\n"
   end
 
   def element_blank(body)

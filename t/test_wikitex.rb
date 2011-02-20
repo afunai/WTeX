@@ -309,4 +309,21 @@ _eos
     )
   end
 
+  def test_tex_quote
+    w = <<'_eos'
+>a = 123
+> b = 456 & 789
+_eos
+    assert_equal(
+      <<'_eos',
+\begin{quote}
+a = 123\\
+ b = 456 \&{} 789
+\end{quote}
+_eos
+      @wt.tex(w),
+      "WikiTeX#tex should convert lines which begin with '>' into quote"
+    )
+  end
+
 end
