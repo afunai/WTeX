@@ -455,6 +455,58 @@ _eos
     )
   end
 
+  def test_tex_nested_wiki_in_quote
+    w = <<'_eos'
+>foo
+>+ bar
+>+ baz
+_eos
+    assert_equal(
+      <<'_eos',
+\begin{quote}
+foo
+\begin{enumerate}
+\item bar
+\item baz
+\end{enumerate}
+\end{quote}
+_eos
+      @wt.tex(w),
+      'WTeX#tex should convert nested blocks inside a quote'
+    )
+  end
+
+  def test_tex_complex_nesting_in_quote
+    w = <<'_eos'
+>foo
+>]$$
+>]x^2 + 2y + z
+>]$$
+>>**boo**
+>\begin{huge}
+>FOO\end{huge}
+_eos
+    assert_equal(
+      <<'_eos',
+\begin{quote}
+foo
+\begin{WTbox-without-title}
+$$
+x^2 + 2y + z
+$$
+\end{WTbox-without-title}
+\begin{quote}
+{\large\bf boo}
+\end{quote}
+\begin{huge}
+FOO\end{huge}
+\end{quote}
+_eos
+      @wt.tex(w),
+      'WTeX#tex should not skip complex Wiki/TeX nesting inside a quote'
+    )
+  end
+
   def test_tex_itemize
     w = <<'_eos'
 * foo

@@ -48,7 +48,7 @@ class WTeX
       line += s[1]
 
       if s[2] =~ /\\|\$\$?|\{/
-        if [:box, :pquote].include? wiki_type(line, s)
+        if [:box, :quote].include? wiki_type(line, s)
           line << s[2] << (s.scan(/(.*?)(\n|\z)/) ? s[1] : '') # do not skip
         else
           line += skip_tex_markup(s, s[2], markups)
@@ -184,7 +184,7 @@ _eos
     body.gsub!(/^>/m, '')
     <<_eos
 \\begin{quote}
-#{element_p body}\\end{quote}
+#{_tex body}\\end{quote}
 _eos
   end
 
