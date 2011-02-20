@@ -355,4 +355,110 @@ _eos
     )
   end
 
+  def test_tex_itemize
+    w = <<'_eos'
+* foo
+* bar
+_eos
+    assert_equal(
+      <<'_eos',
+\begin{itemize}
+\item foo
+\item bar
+\end{itemize}
+_eos
+      @wt.tex(w),
+      "WikiTeX#tex should convert lines which begin with '*' into list"
+    )
+
+    w = <<'_eos'
+* **baz**
+_eos
+    assert_equal(
+      <<'_eos',
+\begin{itemize}
+\item {\large\bf baz}
+\end{itemize}
+_eos
+      @wt.tex(w),
+      "WikiTeX#tex should convert lines which begin with '*' into list"
+    )
+  end
+
+  def test_tex_itemize_ambiguous
+    w = <<'_eos'
+*foo
+_eos
+    assert_equal(
+      <<'_eos',
+*foo
+_eos
+      @wt.tex(w),
+      "WikiTeX#tex should not convert lines with '*' and immidiate strings without spaces"
+    )
+  end
+
+  def test_tex_enumerate
+    w = <<'_eos'
++ foo
++ bar
+_eos
+    assert_equal(
+      <<'_eos',
+\begin{enumerate}
+\item foo
+\item bar
+\end{enumerate}
+_eos
+      @wt.tex(w),
+      "WikiTeX#tex should convert lines which begin with '+' into list"
+    )
+  end
+
+  def test_tex_nested_list
+    w = <<'_eos'
+* foo
+** bar
+** baz
+* qux
+_eos
+    assert_equal(
+      <<'_eos',
+\begin{itemize}
+\item foo\begin{itemize}
+\item bar
+\item baz
+\end{itemize}
+
+\item qux
+\end{itemize}
+_eos
+      @wt.tex(w),
+      'WikiTeX#tex should handle nested lists'
+    )
+  end
+
+  def test_tex_mixed_list
+    w = <<'_eos'
+* foo
+*+ bar
+*+ baz
+* qux
+_eos
+    assert_equal(
+      <<'_eos',
+\begin{itemize}
+\item foo\begin{enumerate}
+\item bar
+\item baz
+\end{enumerate}
+
+\item qux
+\end{itemize}
+_eos
+      @wt.tex(w),
+      'WikiTeX#tex should handle mixed lists'
+    )
+  end
+
 end

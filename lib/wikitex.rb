@@ -111,6 +111,10 @@ class WikiTeX
         :code
       when /^>/
         :quote
+      when /^\*[\*\+]*\s/
+        :itemize
+      when /^\+[\*\+]*\s/
+        :enumerate
       when /^---+$/
         :newpage
       when /^$/
@@ -177,6 +181,40 @@ _eos
     <<_eos
 \\begin{quote}
 #{element_p body}\\end{quote}
+_eos
+  end
+
+  def element_itemize(body)
+    _list(body, 'itemize')
+  end
+
+  def element_enumerate(body)
+    _list(body, 'enumerate')
+  end
+
+  def _list(body, item_enum)
+    items = []
+    lines = []
+    type  = nil
+    (body + "\n\n").each_line {|line|
+      line.sub!(/^(\*|\+)/, '')
+
+      unless line =~ /^(\*|\+)/ || lines.empty?
+        item = inline lines.shift.to_s.chomp
+        unless lines.empty?
+          lines = lines.join
+          item += (lines =~ /\A\*/) ? element_itemize(lines) : element_enumerate(lines)
+        end
+        items << "\\item#{item}\n" if item != ''
+        lines = []
+      end
+
+      lines << line
+    }
+
+    <<_eos
+\\begin{#{item_enum}}
+#{items.join}\\end{#{item_enum}}
 _eos
   end
 
