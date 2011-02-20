@@ -4,15 +4,15 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name              = 'wikitex'
-    gem.rubyforge_project = 'wikitex'
+    gem.name              = 'wtex'
+    gem.rubyforge_project = 'wtex'
     gem.summary           = ''
     gem.description       = <<'_eos'
 _eos
 
     gem.authors  = ['Akira FUNAI']
     gem.email    = 'akira@funai.com'
-    gem.homepage = 'http://github.com/afunai/wikitex'
+    gem.homepage = 'http://github.com/afunai/wtex'
 
     gem.files = FileList[
       'bin/*',
@@ -59,7 +59,7 @@ Rake::RDocTask.new do |rdoc|
   version = File.exist?('VERSION') ? File.read('VERSION') : ""
 
   rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "wikitex #{version}"
+  rdoc.title = "wtex #{version}"
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/*.rb')
 end

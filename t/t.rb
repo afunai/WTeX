@@ -10,4 +10,4 @@ t_dir = ::File.dirname __FILE__
 
 $LOAD_PATH.unshift t_dir
 $LOAD_PATH.unshift(::File.expand_path('../lib', t_dir))
-require 'wikitex'
+require 'wtex'

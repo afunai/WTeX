@@ -22,7 +22,7 @@ WTeXでPDFを出力するには、以下のソフトが必要です。
 
 !! インストール
 
-| gem install wikitex
+| gem install wtex
 
 !! PDFの作成
 
@@ -52,7 +52,7 @@ body.txtに、Wiki/TeXマークアップでソースを記述します。head.te
 !! Ruby からの利用
 
 | require 'rubygems'
-| require 'wikitex'
+| require 'wtex'
 |
 | wt  = WTeX.new
 | tex = wt.tex '***Wiki***{\LARGE\bf TeX}'
