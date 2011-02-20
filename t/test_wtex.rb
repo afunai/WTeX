@@ -438,6 +438,25 @@ _eos
     )
   end
 
+  def test_tex_complex_nesting_in_code
+    w = <<'_eos'
+|]**boo**
+|\begin{huge}
+|FOO\end{huge}
+_eos
+    assert_equal(
+      <<'_eos',
+\begin{WTcode-without-title}
+]**boo**
+\begin{huge}
+FOO\end{huge}
+\end{WTcode-without-title}
+_eos
+      @wt.tex(w),
+      'WTeX#tex should treat complex Wiki/TeX nesting inside a code block'
+    )
+  end
+
   def test_tex_quote
     w = <<'_eos'
 >a = 123
