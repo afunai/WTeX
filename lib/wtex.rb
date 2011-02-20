@@ -116,7 +116,7 @@ class WTeX
       when /^\+[\*\+]*\s/
         :enumerate
       when /^---+$/
-        :newpage
+        :separator
       when /^$/
         :blank
       when /:$/
@@ -218,8 +218,8 @@ _eos
 _eos
   end
 
-  def element_newpage(body)
-    "\\newpage\n"
+  def element_separator(body)
+    "\\WTseparator{}\n"
   end
 
   def element_p(body)

@@ -59,6 +59,14 @@ class TC_WTeX < Test::Unit::TestCase
     )
   end
 
+  def test_tex_separator
+    assert_equal(
+      "\\WTseparator{}\n",
+      @wt.tex('---'),
+      'WTeX#tex should convert "---" into \\WTseparator{}'
+    )
+  end
+
   def test_tex_heading_combination
     w = <<'_eos'
 !!! foo
@@ -197,36 +205,6 @@ boo
 _eos
       @wt.tex(w),
       'WTeX#tex should deal with combination of commands and paragraphs'
-    )
-  end
-
-  def test_tex_newpage
-    w = <<'_eos'
-foo
----
-bar
-_eos
-    assert_equal(
-      <<'_eos',
-foo
-\newpage
-bar
-_eos
-      @wt.tex(w),
-      'WTeX#tex should convert "---" into \\newpage'
-    )
-
-    w = <<'_eos'
-foo
----------
-_eos
-    assert_equal(
-      <<'_eos',
-foo
-\newpage
-_eos
-      @wt.tex(w),
-      'WTeX#tex should convert more than 3 "-"s into \\newpage as well'
     )
   end
 

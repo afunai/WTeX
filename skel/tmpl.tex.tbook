@@ -23,6 +23,11 @@
   \bou{#1}
 }
 
+\newcommand{\WTseparator}[0]
+{
+  \begin{center}\subsection*{◆◇◆}\end{center}
+}
+
 %%% custom environments
 \newenvironment{WTbox}[1]
 {
