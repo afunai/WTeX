@@ -67,6 +67,19 @@ class TC_WTeX < Test::Unit::TestCase
     )
   end
 
+  def test_tex_heading_without_number
+    assert_equal(
+      "\\subsection*{foo}\n",
+      @wt.tex('!* foo'),
+      'WTeX#tex should convert "!!!" with "*" into \\chapter*{}'
+    )
+    assert_equal(
+      "\\chapter*{baz}\n",
+      @wt.tex('!!!* baz'),
+      'WTeX#tex should convert "!!!" with "*" into \\chapter*{}'
+    )
+  end
+
   def test_tex_heading_combination
     w = <<'_eos'
 !!! foo

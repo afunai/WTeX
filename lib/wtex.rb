@@ -138,14 +138,14 @@ class WTeX
 
   def element_heading(body)
     body.chomp!
-    body.gsub!(/(!+)\s*/, '')
+    body.gsub!(/(!+)(\*?)\s*/, '')
     case $1
       when '!'
-        "\\subsection{#{body}}\n"
+        "\\subsection#{$2}{#{body}}\n"
       when '!!'
-        "\\section{#{body}}\n"
+        "\\section#{$2}{#{body}}\n"
       else
-        "\\chapter{#{body}}\n"
+        "\\chapter#{$2}{#{body}}\n"
     end
   end
 
