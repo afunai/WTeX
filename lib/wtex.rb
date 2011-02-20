@@ -21,7 +21,7 @@ class WTeX
       '~' => '\\textasciicircum{}',
     }
     SPECIAL = SPECIAL_MAP.keys.join
-    WITHOUT_RUBY = '\s|｜ぁ-んゝゞ\　、。，．？！´｀／∥…‥‘’“”（）〔〕［］｛｝〈〉《》「」『』【】♪'
+    WITHOUT_RUBY = '\s|｜ぁ-んゝゞ　、。，．？！´｀／∥…‥‘’“”（）〔〕［］｛｝〈〉《》「」『』【】♪'
   end
 
   def self.libdir
