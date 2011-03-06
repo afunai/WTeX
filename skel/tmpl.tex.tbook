@@ -25,7 +25,7 @@
 
 \newcommand{\WTseparator}[0]
 {
-  \begin{center}\subsection*{◆◇◆}\end{center}
+  \subsection*{\centering{◆◇◆}}
 }
 
 %%% custom environments
