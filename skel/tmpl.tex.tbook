@@ -23,6 +23,11 @@
   \bou{#1}
 }
 
+\newcommand{\WTcombined}[1]
+{
+  \rensuji{#1}
+}
+
 \newcommand{\WTseparator}[0]
 {
   \subsection*{\centering{◆◇◆}}

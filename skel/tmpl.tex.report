@@ -19,6 +19,11 @@
   \underline{#1}
 }
 
+\newcommand{\WTcombined}[1]
+{
+  #1
+}
+
 \newcommand{\WTseparator}[0]
 {
   \subsection*{\centering{◆◇◆}}
