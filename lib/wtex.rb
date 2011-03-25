@@ -240,6 +240,7 @@ _eos
     body = convert_ruby      body
     body = convert_strong    body
     body = convert_underline body
+    body = convert_combined  body
     body = escape_specials   body
   end
 
@@ -264,6 +265,11 @@ _eos
 
   def convert_underline(body)
     body.gsub!(/__(.*?)__/, '\\WTunderline{\1}')
+    body
+  end
+
+  def convert_combined(body)
+    body.gsub!(/[!！\?？]{2,}/u) { '\\WTcombined{' + $&.gsub(/！/, '!').gsub(/？/, '?') + '}' }
     body
   end
 

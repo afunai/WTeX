@@ -146,4 +146,68 @@ class TC_WTeX_Inline < Test::Unit::TestCase
     )
   end
 
+  def test_tex_combined_basic
+    assert_equal(
+      "foo\\WTcombined{!!}\n",
+      @wt.tex('foo!!'),
+      "WTeX#tex should combine multiple '!' characters"
+    )
+    assert_equal(
+      "foo\\WTcombined{!!}\n",
+      @wt.tex('foo！！'),
+      "WTeX#tex should combine multiple '!' characters"
+    )
+
+    assert_equal(
+      "foo\\WTcombined{?!}\n",
+      @wt.tex('foo?!'),
+      "WTeX#tex should combine '?' and '!'"
+    )
+    assert_equal(
+      "foo\\WTcombined{?!}\n",
+      @wt.tex('foo？！'),
+      "WTeX#tex should combine '?' and '!'"
+    )
+
+    assert_equal(
+      "foo\\WTcombined{?!}bar\\WTcombined{!!}\n",
+      @wt.tex('foo？！bar!!'),
+      "WTeX#tex should combine '?' and '!'"
+    )
+  end
+
+  def test_tex_combined_irregular
+    assert_equal(
+      "foo!\n",
+      @wt.tex('foo!'),
+      "WTeX#tex should leave single '!' character"
+    )
+    assert_equal(
+      "foo！\n",
+      @wt.tex('foo！'),
+      "WTeX#tex should leave single '!' character"
+    )
+    assert_equal(
+      "foo?\n",
+      @wt.tex('foo?'),
+      "WTeX#tex should leave single '?' character"
+    )
+    assert_equal(
+      "foo？\n",
+      @wt.tex('foo？'),
+      "WTeX#tex should leave single '?' character"
+    )
+
+    assert_equal(
+      "foo\\WTcombined{!!!}\n",
+      @wt.tex('foo！！！'),
+      'WTeX#tex should deal with more than two characters'
+    )
+    assert_equal(
+      "foo\\WTcombined{?!!}\n",
+      @wt.tex('foo？！！'),
+      'WTeX#tex should deal with more than two characters'
+    )
+  end
+
 end
