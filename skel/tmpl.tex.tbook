@@ -18,15 +18,9 @@
 \vfuzz 10pt
 
 %%% custom commands
-\newcommand{\WTunderline}[1]
-{
-  \bou{#1}
-}
+\newcommand{\WTunderline}[1] {\bou{#1}}
 
-\newcommand{\WTcombined}[1]
-{
-  \rensuji{#1}
-}
+\newcommand{\WTcombined}[1] {\rensuji{#1}}
 
 \newcommand{\WTseparator}[0]
 {

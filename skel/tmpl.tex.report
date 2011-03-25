@@ -14,15 +14,9 @@
 \vfuzz 10pt
 
 %%% custom commands
-\newcommand{\WTunderline}[1]
-{
-  \underline{#1}
-}
+\newcommand{\WTunderline}[1] {\underline{#1}}
 
-\newcommand{\WTcombined}[1]
-{
-  #1
-}
+\newcommand{\WTcombined}[1] {#1}
 
 \newcommand{\WTseparator}[0]
 {
